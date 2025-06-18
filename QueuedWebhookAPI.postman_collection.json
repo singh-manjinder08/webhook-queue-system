@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "Queued Webhook API",
+    "_postman_id": "e01ae7c5-xxxx-xxxx-xxxx-fd0cbd9ba561",
+    "description": "API Collection to test Laravel Webhook Queue System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Webhooks",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/queued-webhooks",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "queued-webhooks"]
+        }
+      }
+    },
+    {
+      "name": "Create Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"transaction_id\": \"fa45e460-dcde-455e-8c65-f1cc2f5e9145\",\n  \"event_type\": \"TRANSACTION_CREATED\",\n  \"payload\": {\n    \"amount\": 100,\n    \"currency\": \"USD\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/v1/queued-webhooks",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "queued-webhooks"]
+        }
+      }
+    }
+  ]
+}
