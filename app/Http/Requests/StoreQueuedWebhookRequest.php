@@ -11,7 +11,7 @@ class StoreQueuedWebhookRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class StoreQueuedWebhookRequest extends FormRequest
     {
         return [
             'transaction_id' => ['required', 'uuid'],
-            'event_type'     => ['required', 'string', 'in:TRANSACTION_PENDING,TRANSACTION_FAILED,TRANSACTION_COMPLETED'],
+            'event_type'     => ['required', 'string', 'in:TRANSACTION_CREATED,TRANSACTION_PENDING,TRANSACTION_FAILED,TRANSACTION_COMPLETED'],
             'payload'        => ['required', 'array'],
         ];
     }

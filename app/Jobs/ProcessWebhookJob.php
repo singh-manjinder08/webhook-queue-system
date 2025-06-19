@@ -13,7 +13,7 @@ class ProcessWebhookJob implements ShouldQueue
     /**
      * @var QueuedWebhook $webhook
      */
-    private QueuedWebhook $webhook;
+    public QueuedWebhook $webhook;
 
     /**
      * Create a new job instance.

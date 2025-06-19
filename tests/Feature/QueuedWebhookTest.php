@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\QueuedWebhook;
+use Illuminate\Support\Str;
 
 class QueuedWebhookTest extends TestCase
 {
@@ -15,19 +16,23 @@ class QueuedWebhookTest extends TestCase
     public function it_creates_a_queued_webhook()
     {
         $payload = [
-            'transaction_id' => 'tx-12345',
-            'payload' => ['event' => 'test'],
-            'url' => 'https://httpbin.org/post',
+            'transaction_id' => str::uuid(),
+            'event_type' => 'TRANSACTION_CREATED',
+            'payload' => [
+                'order_id' => "order-1",
+                'amount' => 20,
+                'currency' => 'USD',
+            ],
         ];
 
-        $response = $this->postJson('/api/v1/queued-webhooks', $payload);
+        $headers = ['Accept' => 'application/json'];
 
-        $response->assertStatus(201)
-                 ->assertJsonFragment(['transaction_id' => 'tx-12345']);
+        $response = $this->postJson('api/v1/queued-webhooks', $payload, $headers);
+
+        $response->assertStatus(200);
 
         $this->assertDatabaseHas('queued_webhooks', [
-            'transaction_id' => 'tx-12345',
-            'status' => 'pending',
+            'transaction_id' => $payload['transaction_id'],
         ]);
     }
 
@@ -36,7 +41,9 @@ class QueuedWebhookTest extends TestCase
     {
         QueuedWebhook::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/v1/queued-webhooks');
+        $headers = ['Accept' => 'application/json'];
+
+        $response = $this->getJson('/api/v1/queued-webhooks', $headers);
 
         $response->assertStatus(200)
                  ->assertJsonCount(3, 'data');

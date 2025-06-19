@@ -32,14 +32,14 @@ class QueuedWebhookController extends Controller
     public function store(StoreQueuedWebhookRequest $request)
     {
         $webhook = QueuedWebhook::create([
-        'transaction_id' => $request->transaction_id,
-        'event_type' => $request->event_type,
-        'payload' => $request->payload,
-    ]);
+            'transaction_id' => $request->transaction_id,
+            'event_type' => $request->event_type,
+            'payload' => $request->payload,
+        ]);
 
-    event(new WebhookDispatched($webhook));
+        event(new WebhookDispatched($webhook));
 
-    return response()->json(['message' => 'Queued webhook created.']);
+        return response()->json(['message' => 'Queued webhook created.']);
     }
 
     /**
