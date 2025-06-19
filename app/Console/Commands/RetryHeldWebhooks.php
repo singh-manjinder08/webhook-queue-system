@@ -17,6 +17,11 @@ class RetryHeldWebhooks extends Command
 
         foreach ($heldWebhooks as $webhook)
         {
+            if ($webhook->retry_attempts >= 3)
+            {
+                continue;
+            }
+
             $isBlocked = QueuedWebhook::where('transaction_id', $webhook->transaction_id)
                 ->whereIn('status', ['pending', 'inprogress'])
                 ->where('id', '!=', $webhook->id)

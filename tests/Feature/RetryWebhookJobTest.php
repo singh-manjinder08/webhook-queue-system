@@ -18,6 +18,7 @@ class RetryWebhookJobTest extends TestCase
         Queue::fake();
 
         $webhook = QueuedWebhook::factory()->create([
+            'transaction_id' => 'txn-1',
             'status' => 'hold',
             'retry_attempts' => 1,
         ]);
@@ -35,6 +36,7 @@ class RetryWebhookJobTest extends TestCase
         Queue::fake();
 
         $webhook = QueuedWebhook::factory()->create([
+            'transaction_id' => 'txn-2',
             'status' => 'hold',
             'retry_attempts' => 3,
         ]);
